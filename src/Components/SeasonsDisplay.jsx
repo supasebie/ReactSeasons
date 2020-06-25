@@ -1,29 +1,38 @@
 import React from 'react'
-import { Grid, GridColumn, Icon } from 'semantic-ui-react';
+import { Icon } from 'semantic-ui-react';
+import '../Css/Seasons.css';
 
 const getSeason = (lat, month) => {
     if (month > 2 && month < 9) {
-        return lat > 0 ? 'Summer' : 'Winter';
+        return lat > 0 ? 'summer' : 'winter';
     } else {
-        return lat > 0 ? 'Winter' : 'Summer';
+        return lat > 0 ? 'winter' : 'summer';
     }
 };
+
+const seasonConfig = {
+    summer: {
+        text: 'Let\'s hit the beach',
+        iconName: 'sun',
+        iconColor: 'orange',
+    },
+    winter: {
+        text: 'Let\'s hit the snow',
+        iconName: 'snowflake',
+        iconColor: 'blue',
+    }
+};
+
 const SeasonsDisplay = (props) => {
     const season = getSeason(props.lat, new Date().getMonth());
+    const { text, iconName, iconColor } = seasonConfig[season];
+
     return (
-        <Grid container columns={3} centered>
-            <Grid.Row>
-                <GridColumn>
-                    <Icon name='sun' color='orange' size='massive' />
-                </GridColumn>
-                <GridColumn>
-                    <h1>{season === 'Winter' ? 'Burr' : 'Wheew hot'}</h1>
-                </GridColumn>
-                <GridColumn>
-                    <Icon name='sun' color='orange' size='massive' />
-                </GridColumn>
-            </Grid.Row>
-        </Grid>
+        <div className={`season-display ${season}`}>
+            <Icon className={'icon-right'} name={iconName} color={iconColor} size='massive' />
+            <h1>{text}</h1>
+            <Icon className={'icon-left'} name={iconName} color={iconColor} size='massive' />
+        </div>
     );
 }
 

@@ -1,8 +1,8 @@
 import React from 'react';
-import { Grid } from 'semantic-ui-react';
 import Loading from './Loading';
 import ErrorModal from './ErrorModal';
 import SeasonsDisplay from './SeasonsDisplay';
+import '../Css/Seasons.css';
 
 class SeasonsApp extends React.Component {
     // Babel sugar defines state variables without constructor and super
@@ -20,39 +20,35 @@ class SeasonsApp extends React.Component {
         console.log('Component was just updated');
     };
 
-    // React will always require that you define a render method!
-    render() {
+    renderContent = () => {
         if(this.state.errorMessage && !this.state.lat) {
             return (
-                <Grid container columns={1} divided>
-                <Grid.Row>
                     <ErrorModal
                         errorMessage={this.state.errorMessage}
                     />
-                </Grid.Row>
-            </Grid>
             );
         };
 
         if(!this.state.errorMessage && this.state.lat) {
             return (
-                <Grid container columns={1} divided>
-                <Grid.Row>
-                    <SeasonsDisplay
-                        lat={this.state.lat}
-                        long={this.state.long}
-                    />
-                </Grid.Row>
-            </Grid>
+                <SeasonsDisplay
+                    lat={this.state.lat}
+                    long={this.state.long}
+                />
             );
         };
         return (
-            <Grid container columns={1} divided>
-                <Grid.Row>
-                    <Loading />
-                </Grid.Row>
-            </Grid>
+            <div>
+                <Loading
+                    message={'Please accept the location request'}
+                />
+            </div>
         );
+    }
+
+    // React will always require that you define a render method!
+    render() {
+        return this.renderContent();
     };
 }
 
